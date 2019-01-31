@@ -19,6 +19,10 @@ namespace :db do
       rubocop_yml = File.expand_path("../../../../#{autocorrect_config}", __FILE__)
 
       begin
+        # Temporarily symlink the rubocop config file into the working directory so that rubocop
+        # can find the ruby version correctly. Without this, rubocop will start looking from the
+        # config file's path, deep inside this gem, where it won't be able to find your project's
+        # ruby version.
         local_filename = generate_local_filename
         FileUtils.symlink(rubocop_yml, local_filename)
         `bundle exec rubocop --auto-correct --config #{local_filename} #{filename.shellescape}`
