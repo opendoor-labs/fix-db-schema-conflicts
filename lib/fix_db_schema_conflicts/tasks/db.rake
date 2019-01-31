@@ -1,6 +1,10 @@
 require 'shellwords'
 require_relative '../autocorrect_configuration'
 
+def generate_local_filename
+  "tmp_rubocop_schema.#{SecureRandom.urlsafe_base64}.yml"
+end
+
 namespace :db do
   namespace :schema do
     task :dump do
@@ -13,7 +17,14 @@ namespace :db do
       end
       autocorrect_config = FixDBSchemaConflicts::AutocorrectConfiguration.load
       rubocop_yml = File.expand_path("../../../../#{autocorrect_config}", __FILE__)
-      `bundle exec rubocop --auto-correct --config #{rubocop_yml} #{filename.shellescape}`
+
+      begin
+        local_filename = generate_local_filename
+        FileUtils.symlink(rubocop_yml, local_filename)
+        `bundle exec rubocop --auto-correct --config #{local_filename} #{filename.shellescape}`
+      ensure
+        File.delete(local_filename) if File.exist?(local_filename)
+      end
     end
   end
 end
