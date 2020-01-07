@@ -22,10 +22,10 @@ RSpec.describe FixDBSchemaConflicts::AutocorrectConfiguration do
     expect(autocorrect_config.load).to eq('.rubocop_schema.53.yml')
   end
 
-  it 'for versions 0.79.0 and above' do
-    installed_rubocop(version: '0.79.0')
+  it 'for versions 0.77.0 and above' do
+    installed_rubocop(version: '0.77.0')
 
-    expect(autocorrect_config.load).to eq('.rubocop_schema.79.yml')
+    expect(autocorrect_config.load).to eq('.rubocop_schema.77.yml')
   end
 
   def installed_rubocop(version:)
