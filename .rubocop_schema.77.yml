@@ -1,4 +1,4 @@
-# Configuration for Rubocop >= 0.53.0
+# Configuration for Rubocop >= 0.77.0
 
 Layout/HashAlignment:
   EnforcedColonStyle: 'key'
@@ -10,11 +10,18 @@ Layout/ExtraSpacing:
   # lines.
   AllowForAlignment: false
 
-Layout/SpaceBeforeFirstArg:
-  Enabled: true
-
 Style/Encoding:
   Enabled: false
+
+Layout/HashAlignment:
+  EnforcedColonStyle: 'key'
+  EnforcedHashRocketStyle: 'key'
+
+Layout/LineLength:
+  Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Enabled: true
 
 Style/NumericLiterals:
   Enabled: false
