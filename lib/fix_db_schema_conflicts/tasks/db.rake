@@ -25,7 +25,13 @@ namespace :db do
         # ruby version.
         local_filename = generate_local_filename
         FileUtils.symlink(rubocop_yml, local_filename)
-        `bundle exec rubocop --auto-correct --config #{local_filename} #{filename.shellescape}`
+        auto_correct_arg = if Gem.loaded_specs['rubocop'].version >= Gem::Version.new('1.30')
+          'autocorrect'
+        else
+          'auto-correct'
+        end
+
+       `bundle exec rubocop --#{auto_correct_arg} --config #{rubocop_yml} #{filename.shellescape}`
       ensure
         File.delete(local_filename) if File.exist?(local_filename)
       end
